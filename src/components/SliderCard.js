@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Image, Dimensions, Text } from 'react-native'
-import { ContextMenuView } from "react-native-ios-context-menu";
+import { View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 import ContextMenu from './ContextMenu'
 
 export default function SliderCard({ show, index }) {
@@ -13,7 +12,9 @@ export default function SliderCard({ show, index }) {
         }} key={index}>
 
             <ContextMenu item={show}>
-                <Image source={{ uri: show.image }} style={styles.image} />
+                <TouchableOpacity onPress={() => console.log('h')} >
+                    <Image source={{ uri: show.image }} style={styles.image} />
+                </TouchableOpacity>
                 <View style={styles.textBox}>
                     <Text style={styles.title}>{show.title}</Text>
                     <Text style={styles.year}>({year})</Text>

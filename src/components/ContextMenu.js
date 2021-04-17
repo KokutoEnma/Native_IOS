@@ -4,6 +4,7 @@ import { ContextMenuView } from "react-native-ios-context-menu";
 
 
 export default function ContextMenu({ children, item }) {
+
     return (
         <ContextMenuView
             onPressMenuItem={({ nativeEvent }) => {

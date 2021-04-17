@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import Carousel from 'react-native-snap-carousel';
 import CarouselCard, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCard'
 
+
 export default function ({ movies, tvs, currentScreen }) {
     const carouselRef = useRef(null)
     const shows = [tvs, movies][currentScreen]

@@ -1,24 +1,17 @@
 import React from 'react'
 import { ImageBackground, View, Image, Dimensions } from 'react-native'
 import ContextMenu from './ContextMenu'
-
+import CarouselImage from './CarouselImage'
 
 export const SLIDER_WIDTH = Dimensions.get('window').width
 export const ITEM_WIDTH = SLIDER_WIDTH
 
-const CarouselCard = ({ item, index }) => {
-
-
+function CarouselCard({ item, index }) {
     return (
-
         <View style={styles.container} key={index}>
             <ImageBackground source={{ uri: item.image }} style={styles.backGround} blurRadius={24}>
                 <ContextMenu item={item}>
-                    <View style={styles.imageWrapper}>
-                        < Image
-                            source={{ uri: item.image }}
-                            style={styles.image} />
-                    </View>
+                    <CarouselImage item={item} />
                 </ContextMenu>
             </ImageBackground>
         </View>
@@ -41,19 +34,6 @@ const styles = {
         alignItems: 'center',
         height: '100%',
         width: '100%'
-    },
-    imageWrapper: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 160,
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        resizeMode: "contain"
     }
 }
 

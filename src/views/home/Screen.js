@@ -18,6 +18,7 @@ export default function Screen({ navigation }) {
     const loaded = currentMovie && popularMovie && topMovie && trendingTv && popularTv && topTv
 
     const [currentScreen, setCurrentScreen] = useState(1)
+    // const pushRoute = page=>navigation.push()
 
     const setData = (d, callback, type) => {
         const { err, data, msg } = d
