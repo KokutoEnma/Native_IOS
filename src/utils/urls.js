@@ -27,6 +27,9 @@ const urls = {
     cast_detail: id => `${api_url}/cast_detail/${id}`,
     cast_external_ids: id => `${api_url}/cast_external_ids/${id}`,
 
+    facebook: (type, id) => `https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/${type}/${id}`,
+    twitter: (type, id) => `https://twitter.com/intent/tweet?text=Check out this link&url=https://www.themoviedb.org/${type}/${id}&hashtags=CSCI571USCFilms `
+
 }
 
 

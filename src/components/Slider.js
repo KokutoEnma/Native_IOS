@@ -4,6 +4,7 @@ import SliderCard from './SliderCard'
 
 export default function Slider({ movies, tvs, currentScreen }) {
     const shows = [tvs, movies][currentScreen]
+    if (!shows) return null
     return (
         <ScrollView style={styles.wrapper} horizontal={true}>
             {
@@ -21,7 +22,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         // paddingBottom: '1%',
-        width: '90%'
+        width: '100%'
     },
     image: {
         width: Dimensions.get('window').width * 0.26,

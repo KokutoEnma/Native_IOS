@@ -3,13 +3,15 @@ import { Linking } from 'react-native'
 import { ContextMenuView } from "react-native-ios-context-menu";
 
 
+import urls from '../utils/urls'
+
 export default function ContextMenu({ children, item }) {
 
     return (
         <ContextMenuView
             onPressMenuItem={({ nativeEvent }) => {
-                if (nativeEvent.actionKey === 'action-fb') Linking.openURL(`https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/${item.type}/${item.id}`)
-                else if (nativeEvent.actionKey === 'action-tw') Linking.openURL(`https://twitter.com/intent/tweet?text=Check out this link&url=https://www.themoviedb.org/${item.type}/${item.id}&hashtags=CSCI571USCFilms `)
+                if (nativeEvent.actionKey === 'action-fb') Linking.openURL(urls.facebook(item.type, item.id))
+                else if (nativeEvent.actionKey === 'action-tw') Linking.openURL(urls.twitter(item.type, item.id))
             }}
             menuConfig={{
                 menuTitle: '',

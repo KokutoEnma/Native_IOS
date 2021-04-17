@@ -1,9 +1,13 @@
 import React from 'react'
 import { View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 import ContextMenu from './ContextMenu'
+import { useRoute, useNavigation } from '@react-navigation/native';
+
 
 export default function SliderCard({ show, index }) {
     const year = new Date(show.date).getFullYear();
+    const route = useRoute();
+    const navigation = useNavigation();
     return (
 
         <View style={{
@@ -12,7 +16,7 @@ export default function SliderCard({ show, index }) {
         }} key={index}>
 
             <ContextMenu item={show}>
-                <TouchableOpacity onPress={() => console.log('h')} >
+                <TouchableOpacity onPress={() => navigation.push('Detail', { item: show, previousRoute: route.name })} style={styles.imageWrapper} >
                     <Image source={{ uri: show.image }} style={styles.image} />
                 </TouchableOpacity>
                 <View style={styles.textBox}>

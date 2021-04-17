@@ -18,20 +18,14 @@ export default function Screen({ navigation }) {
     const loaded = currentMovie && popularMovie && topMovie && trendingTv && popularTv && topTv
 
     const [currentScreen, setCurrentScreen] = useState(1)
-    // const pushRoute = page=>navigation.push()
 
-    const setData = (d, callback, type) => {
-        const { err, data, msg } = d
-        if (err) console.log(type + " Error:" + msg)
-        else callback(data)
-    }
     useEffect(() => {
-        fetcher.fetch_current_playing_movie(data => setData(data, setCurrentMovie, 'current playing movie'))
-        fetcher.fetch_popular_movie(data => setData(data, setPopularMovie, 'playing movie'))
-        fetcher.fetch_top_movie(data => setData(data, setTopMovie, 'top movie'))
-        fetcher.fetch_trending_tv(data => setData(data, setTrendingTv, 'trending tv'))
-        fetcher.fetch_popular_tv(data => setData(data, setPopularTv, 'popular tv'))
-        fetcher.fetch_top_tv(data => setData(data, setTopTv, 'top tv'))
+        fetcher.fetch_current_playing_movie(data => fetcher.setData(data, setCurrentMovie, 'current playing movie'))
+        fetcher.fetch_popular_movie(data => fetcher.setData(data, setPopularMovie, 'playing movie'))
+        fetcher.fetch_top_movie(data => fetcher.setData(data, setTopMovie, 'top movie'))
+        fetcher.fetch_trending_tv(data => fetcher.setData(data, setTrendingTv, 'trending tv'))
+        fetcher.fetch_popular_tv(data => fetcher.setData(data, setPopularTv, 'popular tv'))
+        fetcher.fetch_top_tv(data => fetcher.setData(data, setTopTv, 'top tv'))
     }, [])
 
     useLayoutEffect(() => {
@@ -57,28 +51,34 @@ export default function Screen({ navigation }) {
                     }}
                     scrollEventThrottle={16}
                 >
+                    <View>
 
-                    <Text style={styles.title}>USC Films</Text>
-                    <Text style={styles.subTitle}>{['Trending', 'Now Playing'][currentScreen]}</Text>
+                        <Text style={styles.title}>USC Films</Text>
+                        <Text style={styles.subTitle}>{['Trending', 'Now Playing'][currentScreen]}</Text>
 
-                    <View style={styles.wrapper}>
-                        <Carousel movies={currentMovie} tvs={trendingTv} currentScreen={currentScreen} />
-                    </View>
-                    <Text style={styles.subTitle}>Top Rated</Text>
-                    <View style={styles.wrapper}>
-                        <Slider movies={topMovie} tvs={topTv} currentScreen={currentScreen} />
-                    </View>
-                    <Text style={styles.subTitle}>Popular</Text>
-                    <View style={styles.wrapper}>
-                        <Slider movies={popularMovie} tvs={popularTv} currentScreen={currentScreen} />
-                    </View>
-                    <Text
-                        style={{ ...styles.footer, marginTop: 12 }}
-                        onPress={() => Linking.openURL('https://www.themoviedb.org/')}
-                    >
-                        Powered by TMDB
+                        <View style={styles.wrapper}>
+                            <Carousel movies={currentMovie} tvs={trendingTv} currentScreen={currentScreen} />
+                        </View>
+                        <Text style={styles.subTitle}>Top Rated</Text>
+                        <View style={styles.wrapper}>
+                            <View style={{ width: '90%' }}>
+                                <Slider movies={topMovie} tvs={topTv} currentScreen={currentScreen} />
+                            </View>
+                        </View>
+                        <Text style={styles.subTitle}>Popular</Text>
+                        <View style={styles.wrapper}>
+                            <View style={{ width: '90%' }}>
+                                <Slider movies={popularMovie} tvs={popularTv} currentScreen={currentScreen} />
+                            </View>
+                        </View>
+                        <Text
+                            style={{ ...styles.footer, marginTop: 12 }}
+                            onPress={() => Linking.openURL('https://www.themoviedb.org/')}
+                        >
+                            Powered by TMDB
                     </Text>
-                    <Text style={{ ...styles.footer, marginBottom: 16 }}>Delivered by Shaw S. Yu</Text>
+                        <Text style={{ ...styles.footer, marginBottom: 16 }}>Delivered by Shaw S. Yu</Text>
+                    </View>
 
                 </ScrollView>
 
@@ -95,6 +95,11 @@ export default function Screen({ navigation }) {
 }
 
 const styles = {
+    theme: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     navTitle: {
         fontSize: 18,
         fontWeight: 'bold'
@@ -104,6 +109,7 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100%'
     },
     title: {
         fontSize: 32,

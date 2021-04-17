@@ -48,15 +48,25 @@ const Fetcher = {
     fetch_top_tv: callback => fetcher(urls.top_tv, callback),
     fetch_trending_tv: callback => fetcher(urls.trending_tv, callback),
 
-    fetch_recommeneded_movie: (id, callback) => fetcher(urls.recommended_tv(id), callback),
+    fetch_recommeneded_tv: (id, callback) => fetcher(urls.recommended_tv(id), callback),
     fetch_similar_tv: (id, callback) => fetcher(urls.similar_tv(id), callback),
-    fetch_movie_tv: (id, callback) => fetcher(urls.movie_tv(id), callback),
+    fetch_tv_video: (id, callback) => fetcher(urls.tv_video(id), callback),
     fetch_tv_details: (id, callback) => fetcher(urls.tv_details(id), callback),
     fetch_tv_reviews: (id, callback) => fetcher(urls.tv_reviews(id), callback),
     fetch_tv_cast: (id, callback) => fetcher(urls.tv_cast(id), callback),
 
     fetch_cast_detail: (id, callback) => fetcher(urls.cast_detail(id), callback),
-    fetch_cast_external_ids: (id, callback) => fetcher(urls.cast_external_ids(id), callback)
+    fetch_cast_external_ids: (id, callback) => fetcher(urls.cast_external_ids(id), callback),
+
+
+    setData: (d, callback, type) => {
+        const { err, data, msg } = d
+        if (err) {
+            console.log(type + " Error:" + msg)
+            callback(null)
+        }
+        else callback(data)
+    }
 }
 
 export default Fetcher;

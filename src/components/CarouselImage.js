@@ -3,13 +3,12 @@ import { Image, TouchableOpacity } from 'react-native'
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 
-
 export default function CarouselImage({ item }) {
     const route = useRoute();
     const navigation = useNavigation();
     return (
 
-        <TouchableOpacity onPress={() => navigation.navigate('Detail', { item, previousRoute: 'Home' })} style={styles.imageWrapper}>
+        <TouchableOpacity onPress={() => navigation.push('Detail', { item, previousRoute: route.name })} style={styles.imageWrapper}>
             < Image
                 source={{ uri: item.image }}
                 style={styles.image} />
