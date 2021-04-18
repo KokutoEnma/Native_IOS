@@ -1,10 +1,4 @@
 import * as React from 'react';
-
-import {
-    useColorScheme,
-} from 'react-native'
-// import { Ionicons } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,6 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeStack from './views/home/Stack'
 import SearchStack from './views/search/Stack'
 import WatchlistStack from './views/watchlist/Stack'
+
+
+import { Provider } from 'react-redux';
+import store from './store/store'
 
 const Tab = createBottomTabNavigator();
 const theme = {
@@ -25,16 +23,11 @@ const theme = {
 export default function App() {
 
     return (
-        // <SafeAreaView style={backgroundStyle}>
-        //     <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        //     <View>
-        //         <Text>hello</Text>
-        //     </View>
-        // </SafeAreaView>
-
-        <NavigationContainer theme={theme}>
-            <MainScreen />
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer theme={theme}>
+                <MainScreen />
+            </NavigationContainer>
+        </Provider>
     );
 }
 

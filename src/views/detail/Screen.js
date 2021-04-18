@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import HeaderRight from './HeaderIcons'
 
@@ -55,7 +55,7 @@ export default function Screen() {
                 <VideoSection item={showVideo} />
                 <DetailSection item={showDetail} />
                 <CastSection item={showCast} />
-                <ReviewSection item={showReviews} />
+                <ReviewSection item={showReviews} show={showDetail} />
                 <RecommendSection item={showRecommend} type={type} />
             </View>
         </ScrollView>

@@ -1,10 +1,24 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Text, View, Button, ActivityIndicator, ScrollView, Linking } from 'react-native';
 import fetcher from '../../utils/fetcher'
 import Carousel from '../../components/Carousel'
 import Slider from '../../components/Slider'
+import Toast from 'react-native-root-toast';
+import { useSelector } from 'react-redux'
+
+const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
+
+    useEffect(() => {
+        if (didMount.current) func();
+        else didMount.current = true;
+    }, deps);
+}
+
 
 export default function Screen({ navigation }) {
+    const toast = useSelector(state => state.toast)
+    const [toastShow, setToastShow] = useState(false)
     const [currentMovie, setCurrentMovie] = useState(null)
     const [popularMovie, setPopularMovie] = useState(null)
     const [topMovie, setTopMovie] = useState(null)
@@ -26,7 +40,16 @@ export default function Screen({ navigation }) {
         fetcher.fetch_trending_tv(data => fetcher.setData(data, setTrendingTv, 'trending tv'))
         fetcher.fetch_popular_tv(data => fetcher.setData(data, setPopularTv, 'popular tv'))
         fetcher.fetch_top_tv(data => fetcher.setData(data, setTopTv, 'top tv'))
+
+
     }, [])
+
+    useDidMountEffect(() => {
+        setToastShow(true)
+        setTimeout(() => {
+            setToastShow(false)
+        }, 3000)
+    }, [toast]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -79,7 +102,21 @@ export default function Screen({ navigation }) {
                     </Text>
                         <Text style={{ ...styles.footer, marginBottom: 16 }}>Delivered by Shaw S. Yu</Text>
                     </View>
-
+                    <Toast
+                        visible={toastShow}
+                        position={Toast.positions.BOTTOM - 100}
+                        shadow={false}
+                        animation={true}
+                        hideOnPress={true}
+                        backgroundColor="transparent"
+                        opacity={1}
+                    >
+                        <View style={styles.toastWrapper}>
+                            <Text style={styles.toast}>
+                                {toast.message}
+                            </Text>
+                        </View>
+                    </Toast>
                 </ScrollView>
 
             </>
@@ -135,5 +172,15 @@ const styles = {
         textAlign: 'center',
         color: 'gray',
         fontSize: 12
+    },
+    toastWrapper: {
+        backgroundColor: '#8A8A8A',
+        padding: 10,
+        borderRadius: 32
+    },
+    toast: {
+        color: 'white',
+        padding: 10,
+        textAlign: 'center'
     }
 }
