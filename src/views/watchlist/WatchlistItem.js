@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native'
 import { ContextMenuView } from "react-native-ios-context-menu";
 import { useDispatch, useSelector } from 'react-redux'
 import { updateItemHandler, changeToastMessageHandler } from '../../store/reducer'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const width = Dimensions.get('window').width
 const imgWidth = width * 0.3
@@ -12,7 +13,7 @@ const imgHeight = width * 0.45
 
 
 
-export default function WatchlistItem({ index, setDragging, posIndex, getPosByIndex, selectedIndex, movingDis }) {
+export default function WatchlistItem({ index, setDragging, posIndex, getPosByIndex, selectedIndex, movingDis, atNewPos }) {
 
     const dispatch = useDispatch()
     const items = useSelector(state => state.items)
@@ -30,7 +31,7 @@ export default function WatchlistItem({ index, setDragging, posIndex, getPosByIn
                 zIndex: index === selectedIndex ? 100 : 1,
                 position: 'absolute',
                 left: index === selectedIndex ? position.refx + movingDis.x : position.refx,
-                top: index === selectedIndex ? position.refy + movingDis.y : position.refy
+                top: index === selectedIndex ? position.refy + movingDis.y : position.refy,
             }}
             onTouchStart={() => {
                 setDragging(true)
@@ -70,6 +71,20 @@ export default function WatchlistItem({ index, setDragging, posIndex, getPosByIn
                     <Image source={{ uri: item.image }} style={{ ...styles.image }} />
                 </View>
             </ContextMenuView>
+            {
+                atNewPos ? <Icon
+                    name='add-circle'
+                    color='green'
+                    size={28}
+                    style={{
+                        zIndex: 102,
+                        position: 'absolute',
+                        left: imgWidth - 14,
+                        top: -14,
+                    }}
+                /> : null
+            }
+
         </View>
 
     )

@@ -1,10 +1,10 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import WatchlistItem from './WatchlistItem'
 import { useHeaderHeight } from '@react-navigation/stack'
-import DraggableFlatList from "react-native-draggable-flatlist";
+import { updateItemHandler } from '../../store/reducer'
 
 
 const width = Dimensions.get('window').width
@@ -16,12 +16,14 @@ const yOffset = 2
 
 export default function Screen() {
     const navigation = useNavigation()
-
+    const dispatch = useDispatch()
+    const updateItems = items => dispatch(updateItemHandler(items))
 
     const items = useSelector(state => state.items)
     const [selectedIndex, setSelectedIndex] = useState(-1)
     const [iniMovingPos, setInitMovingPos] = useState({ x: 0, y: 0 })
     const [movingDis, setMovingDis] = useState({ x: 0, y: 0 })
+    const [targetIndex, setTargetIndex] = useState(-1)
 
     const [dragging, setDragging] = useState(false)
     const [boxDim, setBoxDim] = useState({ x: 0, y: 0, width: 0, height: 0 })
@@ -54,7 +56,7 @@ export default function Screen() {
         const pos = [...Array(items.length)].map((p, i) => getPosByIndex(i))
         for (let i = 0; i < pos.length; i++) {
             if (x > pos[i].px && x < pos[i].px + imgWidth && y > pos[i].py && y < pos[i].py + imgHeight)
-                return i
+                return i >= items.length ? -1 : i
         }
         return -1
     }
@@ -98,6 +100,7 @@ export default function Screen() {
                         setMovingDis({ x: pageX - x, y: pageY - y })
 
                         const targetIndex = getIndexFromPos({ x: pageX, y: pageY })
+                        setTargetIndex(targetIndex)
                         if (targetIndex !== -1) {
                             let temp = { ...getOriginalPos() }
                             for (let id in getOriginalPos()) {
@@ -119,6 +122,13 @@ export default function Screen() {
                         setMovingDis({ x: 0, y: 0 })
                         setInitMovingPos({ x: 0, y: 0 })
                         setPosIndex({ ...getOriginalPos() })
+                        if (JSON.stringify(getOriginalPos()) !== JSON.stringify(posIndex)) {
+                            const selectedItem = { ...items[selectedIndex] }
+                            const newItems = [...items]
+                            newItems.splice(selectedIndex, 1)
+                            newItems.splice(targetIndex, 0, selectedItem)
+                            updateItems([...newItems])
+                        }
                     }}
                 >
 
@@ -132,6 +142,7 @@ export default function Screen() {
                                 getPosByIndex={getPosByIndex}
                                 selectedIndex={selectedIndex}
                                 movingDis={movingDis}
+                                atNewPos={targetIndex !== -1 && selectedIndex === index && targetIndex !== index}
                             />
                         ))
                     }
