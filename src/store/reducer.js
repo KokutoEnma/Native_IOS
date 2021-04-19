@@ -1,4 +1,4 @@
-import { ADD_ITEM, CHANGE_TOAST_MESSAGE, CHANGE_TOAST_STATUS, REMOVE_ITEM } from './actions'
+import { ADD_ITEM, CHANGE_TOAST_MESSAGE, REMOVE_ITEM, UPDATE_ITEMS } from './actions'
 
 const initialState = {
     items: [],
@@ -22,7 +22,15 @@ export default function reducer(state = initialState, { type, payload }) {
             ...state,
             items
         }
-    } else if (type === CHANGE_TOAST_MESSAGE) {
+    } else if (type == UPDATE_ITEMS) {
+        let items = []
+        payload.forEach(e => items.push({ ...e }))
+        return {
+            ...state,
+            items
+        }
+    }
+    else if (type === CHANGE_TOAST_MESSAGE) {
         return {
             ...state,
             toast: { ...state.toast, message: payload }
@@ -42,6 +50,11 @@ export const addItemHandler = item => ({
 export const removeItemHandler = id => ({
     type: REMOVE_ITEM,
     payload: id
+})
+
+export const updateItemHandler = items => ({
+    type: UPDATE_ITEMS,
+    payload: items
 })
 
 export const changeToastMessageHandler = message => ({
