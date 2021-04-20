@@ -5,6 +5,7 @@ import Carousel from '../../components/Carousel'
 import Slider from '../../components/Slider'
 import Toast from 'react-native-root-toast';
 import { useSelector } from 'react-redux'
+import LoadingSpinner from '../../components/LoadingSpinner'
 
 const useDidMountEffect = (func, deps) => {
     const didMount = useRef(false);
@@ -40,8 +41,6 @@ export default function Screen({ navigation }) {
         fetcher.fetch_trending_tv(data => fetcher.setData(data, setTrendingTv, 'trending tv'))
         fetcher.fetch_popular_tv(data => fetcher.setData(data, setPopularTv, 'popular tv'))
         fetcher.fetch_top_tv(data => fetcher.setData(data, setTopTv, 'top tv'))
-
-
     }, [])
 
     useDidMountEffect(() => {
@@ -123,10 +122,7 @@ export default function Screen({ navigation }) {
         )
     } else {
         return (
-            <View style={styles.spinnerContainer}>
-                <ActivityIndicator />
-                <Text style={styles.spinnerText}>Fetching Data...</Text>
-            </View>
+            <LoadingSpinner />
         )
     }
 }
@@ -157,15 +153,6 @@ const styles = {
         fontSize: 24,
         fontWeight: 'bold',
         marginLeft: '4%',
-        marginTop: 12
-    },
-    spinnerContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
-    },
-    spinnerText: {
-        color: 'gray',
         marginTop: 12
     },
     footer: {

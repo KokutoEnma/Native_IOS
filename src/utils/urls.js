@@ -1,5 +1,5 @@
 // const api_url = 'http://localhost:5000/api'
-const api_url = 'http://ec2-54-193-172-213.us-west-1.compute.amazonaws.com/api'
+const api_url = 'http://node-express-env.eba-jr4a8pkz.us-east-2.elasticbeanstalk.com/api'
 const urls = {
     search_multi: query => `${api_url}/search_multi/${query}`,
 

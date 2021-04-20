@@ -9,6 +9,8 @@ import DetailSection from './DetailSection'
 import CastSection from './CastSection'
 import ReviewSection from './ReviewSection'
 import RecommendSection from './RecommendSection'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import { Text } from 'react-native'
 
 
 export default function Screen() {
@@ -41,6 +43,8 @@ export default function Screen() {
         }
     }, [])
 
+
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: () => null,
@@ -48,6 +52,12 @@ export default function Screen() {
             headerBackTitle: route.params ? route.params.previousRoute == 'Detail' ? 'Back' : 'USC Films' : 'Back'
         })
     }, [navigation])
+
+    if (showDetail === false || showVideo === false || showCast === false || showReviews === false || showRecommend === false)
+        return <Text>ger</Text>
+
+    if (!showDetail || !showVideo || !showCast || !showReviews || !showRecommend)
+        return <LoadingSpinner />
 
     return (
         <ScrollView >

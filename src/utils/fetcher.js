@@ -63,7 +63,7 @@ const Fetcher = {
         const { err, data, msg } = d
         if (err) {
             console.log(type + " Error:" + msg)
-            callback(null)
+            callback(false)
         }
         else callback(data)
     }
